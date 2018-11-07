@@ -1,0 +1,57 @@
+require("libs.lclass")
+class "AnimationManager"
+
+function AnimationManager:AnimationManager()
+    self.anims = {}
+    --self.timer = 0
+    self._i = 0
+    self.count = 0
+end
+
+function AnimationManager:newEffect(x, y, animation, duration, flip, scale, rotate)
+    --duration = -1 = loop
+    --duration = 0 = once
+    --duration currently not implemented
+    local a = {}
+    a.duration = duration
+    a.animation = animation
+    a.x = x
+    a.y = y
+    a.i = self._i
+    a.flip = flip
+    a.scale = scale or 1
+    a.rotate = rotate or 0
+    self.anims[self._i] = a
+--[[     if flip then
+        animation:setFlip()
+    end ]]
+
+    animation.onFinish = function()
+        self.count = self.count - 1
+        self.anims[a.i] = nil
+    end
+
+    if a.duration == 0 then
+        animation:start(false)
+    else
+        animation:start()
+    end
+    self._i = self._i + 1
+    self.count = self.count + 1
+    return a
+end
+
+function AnimationManager:update(dt)
+    --self.timer = self.timer + dt
+    for _, anim in pairs(self.anims) do
+        anim.animation:update(dt)
+    end
+end
+
+function AnimationManager:draw()
+    for _, anim in pairs(self.anims) do
+        anim.animation:draw(anim.x, anim.y, anim.flip, anim.scale, anim.rotate)
+    end
+end
+
+return AnimationManager()
