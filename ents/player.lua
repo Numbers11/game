@@ -2,13 +2,14 @@ require("libs.lclass")
 
 require "ents.playerstates.playerstates"
 require "fsm.state_machine"
+require "ents.character"
 
 vec = require "libs.hump.vector"
 
-class "Player"("Entity")
+class "Player"("Character")
 
 function Player:Player(name, posx, posy)
-    Entity.Entity(self, name, posx, posy)
+    Character.Character(self, name, posx, posy)
     self.facing = "right"
     self.control = true
     self.speed = 500
@@ -50,6 +51,8 @@ function Player:update(dt)
     --update our state
     self.sm:getState():onUpdate(dt)
 
+    Character.update(self, dt)
+--[[ 
     --update our current player sprite (set by the state). maybe this can be changed to be done inside the state, if we want
     --or maybe do it before the state? No? because then we would be playing an animation for 1 frame before we could judge its actually changing again (in onenter)
     self.animation:update(dt)
@@ -67,9 +70,9 @@ function Player:update(dt)
     end
 
     -- update position
-    self.position = self.position + self.velocity * dt
+    self.position = self.position + self.velocity * dt ]]
 end
-
+--[[ 
 function Player:setVelocity(vel)
     self.velocity = vel
 end
@@ -77,7 +80,7 @@ end
 function Player:addVelocity(vel)
     --check for max velocity here, to clamp
     self.velocity = self.velocity + vel
-end
+end ]]
 
 function Player:input()
     local delta = vec(0, 0)
@@ -97,8 +100,11 @@ end
 
 function Player:move()
 end
-
+--[[ 
 function Player:draw()
+    Character.draw(self)
+    
+
     --love.graphics.setBlendMode("screen")
     --love.graphics.setColor(0.2, 0.2, 1, 1)
     self.animation:draw(self.position.x, self.position.y, (self.facing == "right" and true or false), 1.5)
@@ -110,5 +116,6 @@ function Player:draw()
         love.graphics.print(trunc(self.movdelta.x, 2) .. ":" .. trunc(self.movdelta.y, 2), 100, 1)
         love.graphics.print(trunc(self.velocity.x, 2) .. ":" .. trunc(self.velocity.y, 2) .. " - " .. trunc(self.velocity:len(), 2), 200, 1)
         love.graphics.print(trunc(self.position.x, 2) .. ":" .. trunc(self.position.y, 2), 600, 1)
-    end
+    end 
 end
+]]

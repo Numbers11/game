@@ -31,9 +31,9 @@ function love.load()
     timer.every(
         0.6,
         function()
-            --fx("fxHitSpark", math.random(200, 600), math.random(200, 600), 3, nil, nil, math.rad(math.random(1, 360)))
+            fx("fxSwirl2", math.random(200, 600), math.random(200, 600), 3, nil, nil, math.rad(math.random(1, 360)))
             --                  image, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode
-            pic(imgWall, nil, math.random(200, 600), math.random(200, 600), 3, 0,0, nil, math.random(0.5, 1.5), math.rad(math.random(1, 360)))
+            --pic(imgWall, nil, math.random(200, 600), math.random(200, 600), 3, 0,0, nil, math.random(0.5, 1.5), math.rad(math.random(1, 360)))
         end
     )
 
@@ -44,6 +44,10 @@ function love.load()
     local ff = Player("Adolf", 100, 600)
     EM:add(aPlayer)
     EM:add(ff)
+    local char = Character("Fred", 200, 600)
+    char.animation = animations["saberIdle"]:clone()
+    char.animation:start()
+    EM:add(char)
 end
 
 function love.keypressed(key, unicode)

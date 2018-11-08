@@ -101,7 +101,9 @@ end
 function StateWalk:onLeave()
     local player = self.ent
     print("| " .. player.name .. ": state walk left")
-    timer.cancel(self._th)
+    if self._th then
+        timer.cancel(self._th)
+    end
     --player.velocity = vec(0,0)
     self.timer = 0
 end
@@ -158,19 +160,21 @@ function StateAttack:onEnter(from)
         self:onAnimationFinished()
     end
     timer.after(
-        5 / 60,
+        7 / 60,
         function()
             fx(
                 "fxSlash1",
                 player.position.x + (player.facing == "left" and -15 or 15),
-                player.position.y - 20,
+                player.position.y - 30,
                 0,
                 (player.facing == "left" and true or false),
-                0.3,
+                0.6,
                 math.rad((player.facing == "left" and 30 or -30))
             )
         end
     )
+
+    player:addVelocity(vec((player.facing == "left" and -1 or 1), 0) * 900)
 end
 
 function StateAttack:onUpdate(dt)

@@ -24,10 +24,9 @@ function EntityManager:remove(entID)
     self.count = self.count - 1
 end
 
-local function sortByY( o1, o2 )
+local function sortByY(o1, o2)
     return o1.position.y < o2.position.y --<
 end
-
 
 function EntityManager:update(dt)
     for _, e in pairs(self.entities) do
@@ -35,7 +34,7 @@ function EntityManager:update(dt)
     end
 
     self.drawobj = {}
-    for _,v in pairs(self.entities) do
+    for _, v in pairs(self.entities) do
         table.insert(self.drawobj, v)
     end
     table.sort(self.drawobj, sortByY)
@@ -51,12 +50,11 @@ function EntityManager:draw()
             love.graphics.circle("fill", e.position.x, e.position.y, 5)
             love.graphics.setColor(unpack(oldColor))
         end
-      end
+    end
     --for _, e in pairs(self.entities) do
     --    e:draw()
     --end
     --draw some debug info maybe?
-
 end
 
 return EntityManager()
