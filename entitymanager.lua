@@ -45,11 +45,18 @@ function EntityManager:draw()
     --we need Y ordering and z ordering here
     for _, e in ipairs(self.drawobj) do
         e:draw()
+        if DEBUG then
+            local oldColor = {love.graphics.getColor()}
+            love.graphics.setColor(1, 0, 0)
+            love.graphics.circle("fill", e.position.x, e.position.y, 5)
+            love.graphics.setColor(unpack(oldColor))
+        end
       end
     --for _, e in pairs(self.entities) do
     --    e:draw()
     --end
     --draw some debug info maybe?
+
 end
 
 return EntityManager()

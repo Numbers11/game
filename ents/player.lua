@@ -107,12 +107,8 @@ function Player:draw()
 
     --debug info
     if DEBUG then
-        local oldColor = {love.graphics.getColor()}
-        love.graphics.setColor(1, 0, 0)
-        love.graphics.circle("fill", self.position.x, self.position.y, 5)
         love.graphics.print(trunc(self.movdelta.x, 2) .. ":" .. trunc(self.movdelta.y, 2), 100, 1)
         love.graphics.print(trunc(self.velocity.x, 2) .. ":" .. trunc(self.velocity.y, 2) .. " - " .. trunc(self.velocity:len(), 2), 200, 1)
         love.graphics.print(trunc(self.position.x, 2) .. ":" .. trunc(self.position.y, 2), 600, 1)
-        love.graphics.setColor(unpack(oldColor))
     end
 end

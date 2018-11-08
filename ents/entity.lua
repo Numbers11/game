@@ -23,7 +23,7 @@ function Entity:setName(name)
 end
 
 function Entity:getPos()
-    return self.position:clone() 
+    return self.position:clone()
 end
 
 function Entity:setPos(posx, posy)
@@ -40,5 +40,5 @@ function Entity:draw()
 end
 
 function Entity:kill()
-    self._em:remove(self.id) --refactor this to remove the EM global variable and instead make a self.EM field in the EM add funciton
+    self._em:remove(self.id)
 end
