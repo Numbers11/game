@@ -20,8 +20,8 @@ function StateIdle:onUpdate(dt)
 
     --attack
     if love.keyboard.isDown("f") then
+        --move
         self.fsm:setState("attack")
-    --move
     elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then
         self.fsm:setState("walk")
     end
@@ -42,7 +42,7 @@ function StateWalk:StateWalk(entity)
 end
 
 local function turnCheck(player)
-    return (player.movdelta.x < 0 and player.facing == "right") or (player.movdelta.x > 0 and player.facing == "left")
+    return (player.movdelta.x < 0 and player.facing == 1) or (player.movdelta.x > 0 and player.facing == -1)
 end
 
 function StateWalk:onEnter(from)
@@ -58,12 +58,31 @@ function StateWalk:onEnter(from)
     player.animation = player.anims["walk"]
     player.animation:start()
 
-    fx("fxRun", player.position.x, player.position.y, 0, (player.facing == "left" and true or false))
+    fx("fxRun", player.position.x, player.position.y, 0, -player.facing)
 
-    self._th = timer.every(0.1, function()
-        --pic(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode)
-        EM:add(AfterImage(player.animation.image, player.animation.currentFrame.quad, player.position.x, player.position.y, 0.4, player.animation.currentFrame.axisX, player.animation.currentFrame.axisY, (player.facing == "right" and true or false), 1.5, nil, nil, {0.4,0.4,1,1}))
-    end)
+    self._th =
+        timer.every(
+        0.1,
+        function()
+            --pic(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode)
+            EM:add(
+                AfterImage(
+                    player.animation.image,
+                    player.animation.currentFrame.quad,
+                    player.position.x,
+                    player.position.y,
+                    0.4,
+                    player.animation.currentFrame.axisX,
+                    player.animation.currentFrame.axisY,
+                    player.facing,
+                    1.5,
+                    nil,
+                    nil,
+                    {0.4, 0.4, 1, 1}
+                )
+            )
+        end
+    )
 end
 
 function StateWalk:onUpdate(dt)
@@ -84,7 +103,7 @@ function StateWalk:onUpdate(dt)
 
     --default state, updating movement and stuff
     if self.timer > 0.18 then
-        fx("fxRun", player.position.x, player.position.y, 0, (player.facing == "left" and true or false), 0.4)
+        fx("fxRun", player.position.x, player.position.y, 0, -player.facing, 0.4)
         self.timer = 0
     end
 
@@ -138,7 +157,7 @@ end
 
 function StateTurn:onAnimationFinished()
     local player = self.ent
-    player.facing = (player.facing == "right" and "left" or "right")
+    player.facing = player.facing * -1 --now that we are done turning, actually flip the character
     player.animation.onFinish = nil
     self.fsm:setState("idle")
 end
@@ -162,19 +181,11 @@ function StateAttack:onEnter(from)
     timer.after(
         7 / 60,
         function()
-            fx(
-                "fxSlash1",
-                player.position.x + (player.facing == "left" and -15 or 15),
-                player.position.y - 30,
-                0,
-                (player.facing == "left" and true or false),
-                0.6,
-                math.rad((player.facing == "left" and 30 or -30))
-            )
+            fx("fxSlash1", player.position.x + 15 * player.facing, player.position.y - 30, 0, -player.facing, 0.6, math.rad(40 * -player.facing))
         end
     )
 
-    player:addVelocity(vec((player.facing == "left" and -1 or 1), 0) * 600)
+    player:addVelocity(vec(player.facing * 600, 0))
 end
 
 function StateAttack:onUpdate(dt)

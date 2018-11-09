@@ -6,13 +6,13 @@ function SimpleSprite:SimpleSprite(image, quad, posx, posy, duration, axisX, axi
     self.duration = duration
     self.quad = quad
     self.image = image
-    self.flip = flip
+    self.flip = flip or 1
     self.scale = scale or 1
     self.rotate = rotate or 0
     self.axisX = axisX or 0
     self.axisY = axisY or 0
     self.blendmode = blendmode or "alpha"
-    self.scalex = (flip and self.scale or -self.scale)
+    self.scalex = self.scale * flip
     self.timer = 0
     self.color = color or {1,1,1,1}
 end

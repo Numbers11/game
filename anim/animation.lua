@@ -4,7 +4,7 @@ class "Animation"
 
 --Missing: Clone & Flip
 function Animation:Animation(name, image, frameW, frameH, blendmode, default)
-    print("ANIM INIT - " .. name, image, frameW, frameH, blendmode, default)
+    --print("ANIM INIT - " .. name, image, frameW, frameH, blendmode, default)
     self.name = name or ""
     self.image = image or nil
     self.frames = {}
@@ -100,36 +100,13 @@ function Animation:draw(positionX, positionY, flipped, scale, rotation)
         return
     end
     self:drawSingleFrame(self.currentFrame, positionX, positionY, flipped, scale, rotation)
---[[     local scale = scale or 1
-    local axisX = self.currentFrame.axisX or 0
-    local axisY = self.currentFrame.axisY or 0
-    --local _,_,w,h = self.currentFrame.quad:getViewport()
-    local scalex = (flipped and scale or -scale)
-
-    if self.blendmode ~= nil then
-        local mode, _ = love.graphics.getBlendMode()
-        love.graphics.setBlendMode(self.blendmode)
-        love.graphics.draw(self.image, self.currentFrame.quad, positionX, positionY, rotation, scalex, scale, axisX, axisY)
-        love.graphics.setBlendMode(mode)
-    else
-        love.graphics.draw(self.image, self.currentFrame.quad, positionX, positionY, rotation, scalex, scale, axisX, axisY)
-    end ]]
-
-    --[[     if self.flippedH then
-        sx = sx * -1
-        ox = w - ox
-        kx = kx * -1
-        ky = ky * -1
-      end ]]
-    --draw(image, self:getFrameInfo(x, y, r, sx, sy, ox, oy, kx, ky))
 end
 
 function Animation:drawSingleFrame(frame, positionX, positionY, flipped, scale, rotation)
     local scale = scale or 1
     local axisX = frame.axisX or 0
     local axisY = frame.axisY or 0
-    --local _,_,w,h = self.currentFrame.quad:getViewport()
-    local scalex = (flipped and scale or -scale)
+    local scalex = scale * flipped
 
     if self.blendmode ~= nil then
         local mode, _ = love.graphics.getBlendMode()

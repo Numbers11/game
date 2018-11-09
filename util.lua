@@ -14,3 +14,9 @@ function pic(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotat
     --assert(animations[animname], "This effect does not exist in the animation table")
     EM:add(SimpleSprite(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode, color))
 end
+
+function mixin(class, mixin)
+    for name,method in pairs(mixin) do
+        class[name] = method
+    end
+end

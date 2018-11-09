@@ -4,7 +4,7 @@ vec = require "libs.hump.vector"
 
 class "Entity"
 
-function Entity:Entity(name, posx, posy)
+function Entity:Entity(name, posx, posy, w, h, d)
     self.id = 0
     self.name = name or ""
     self.position = vec(posx, posy)
@@ -31,6 +31,7 @@ function Entity:setPos(posx, posy)
     self.position.y = posy
 end
 
+
 function Entity:update(dt)
     print("This should be overridden!!")
 end
@@ -41,4 +42,8 @@ end
 
 function Entity:kill()
     self._em:remove(self.id)
+end
+
+function Entity:__tostring()
+    return self:getType() .. ":" .. self:getName()
 end

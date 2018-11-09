@@ -313,41 +313,7 @@ return {
             {x = 2},
         }
     },
-    sasoriIdle3 = {
-        image = love.graphics.newImage("assets/idle.png"),
-        frameW = 150,
-        frameH = 100,
-        default = {
-            axisX = 75,
-            axisY = 100,
-            duration = 7 / 60,
-            y = 1,
-        },
-        frames = {
-            {x = 1},
-            {x = 2},
-            {x = 3},
-            {x = 2},
-        }
-    },
-    sasoriIdle2 = {
-        image = love.graphics.newImage("assets/sprite-0.png"),
-        frameW = 150,
-        frameH = 100,
-        default = {
-            axisX = 75,
-            axisY = 100,
-            duration = 7 / 60,
-            y = 4,
-        },
-        frames = {
-            {x = 1},
-            {x = 2},
-            {x = 3},
-            {x = 2},
-        }
-    },
-    sasoriSlide = {
+    sasoriIdle = {
         image = imgSasori,
         frameW = 150,
         frameH = 100,
@@ -358,7 +324,29 @@ return {
             y = 2,
         },
         frames = {
-            {x = 11},
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 2},
+        }
+    },
+    sasoriWalk = {
+        image = imgSasori,
+        frameW = 150,
+        frameH = 100,
+        default = {
+            axisX = 75,
+            axisY = 90,
+            duration = 6 / 60,
+            y = 2,
+        },
+        frames = {
+            {x = 4},
+            {x = 5},
+            {x = 6},
+            {x = 7},
+            {x = 8},
+            {x = 9},
         }
     },
 }
