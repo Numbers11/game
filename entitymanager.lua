@@ -25,7 +25,7 @@ function EntityManager:remove(entID)
 end
 
 local function sortByY(o1, o2)
-    return o1.position.y < o2.position.y --<
+    return (o1.position.y < o2.position.y) or (o1.position.y == o2.position.y and o2.id < o1.id)
 end
 
 function EntityManager:update(dt)

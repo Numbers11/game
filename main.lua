@@ -1,5 +1,6 @@
--- ToDo: Hitboxes & Hurtboxes, figuring out jumps /3rd dimentions 2.5d
--- new Entity NPC, maybe with a common "actor" class for player and npc
+-- ToDo: Hitboxes & Hurtboxes
+-- figuring out jumps /3rd dimentions 2.5d
+-- new Entity NPC, maybe with a common "actor" class for player and npc (x)
 -- also a camera
 -- and a map
 DEBUG = true
@@ -31,7 +32,7 @@ function love.load()
     timer.every(
         0.6,
         function()
-            fx("fxSwirl2", math.random(200, 600), math.random(200, 600), 3, nil, nil, math.rad(math.random(1, 360)))
+            fx("fxSwirl2", math.random(200, 600), math.random(200, 600), 0, nil, nil, math.rad(math.random(1, 360)))
             --                  image, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode
             --pic(imgWall, nil, math.random(200, 600), math.random(200, 600), 3, 0,0, nil, math.random(0.5, 1.5), math.rad(math.random(1, 360)))
         end
@@ -39,14 +40,17 @@ function love.load()
 
     Map.load()
 
-    -- to be refactored to a "game.lua" gamestate file
+    -- to be refactored to a "game.lua" gamestate file in the future
     local aPlayer = Player("Heinz", 500, 600)
     local ff = Player("Adolf", 100, 600)
     EM:add(aPlayer)
     EM:add(ff)
     local char = Character("Fred", 200, 600)
-    char.animation = animations["saberIdle"]:clone()
+    char.scale = 1.1
+    char.animation = animations["sasoriSlide"]:clone()
     char.animation:start()
+    char.friction = 1
+    char:setVelocity(vec(200,0))
     EM:add(char)
 end
 

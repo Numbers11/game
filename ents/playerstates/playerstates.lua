@@ -20,8 +20,8 @@ function StateIdle:onUpdate(dt)
 
     --attack
     if love.keyboard.isDown("f") then
-        --move
         self.fsm:setState("attack")
+    --move
     elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then
         self.fsm:setState("walk")
     end
@@ -95,7 +95,7 @@ function StateWalk:onUpdate(dt)
     end
 
     --no state changes = still pressed, so we move
-    player:setVelocity(player.movdelta * player.acceleration) --*dt  -- player.velocity +
+    player:setVelocity(player.movdelta * player.speed) --*dt  -- player.velocity +
 end
 
 function StateWalk:onLeave()
@@ -174,7 +174,7 @@ function StateAttack:onEnter(from)
         end
     )
 
-    player:addVelocity(vec((player.facing == "left" and -1 or 1), 0) * 900)
+    player:addVelocity(vec((player.facing == "left" and -1 or 1), 0) * 600)
 end
 
 function StateAttack:onUpdate(dt)

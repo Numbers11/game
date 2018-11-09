@@ -1,6 +1,7 @@
 local imgFirebreath = love.graphics.newImage("assets/firebreath.png")
 local imgSpark = love.graphics.newImage("assets/spark.png")
 local imgSaber = love.graphics.newImage("assets/saiba.png")
+local imgSasori = love.graphics.newImage("assets/sprite_all.png")
 
 return {
     fxFireBreath = {
@@ -294,5 +295,70 @@ return {
             {x = 4},
             {x = 5}
         }
-    }
+    },
+    sasoriIdle = {
+        image = imgSasori,
+        frameW = 150,
+        frameH = 100,
+        default = {
+            axisX = 75,
+            axisY = 90,
+            duration = 7 / 60,
+            y = 2,
+        },
+        frames = {
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 2},
+        }
+    },
+    sasoriIdle3 = {
+        image = love.graphics.newImage("assets/idle.png"),
+        frameW = 150,
+        frameH = 100,
+        default = {
+            axisX = 75,
+            axisY = 100,
+            duration = 7 / 60,
+            y = 1,
+        },
+        frames = {
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 2},
+        }
+    },
+    sasoriIdle2 = {
+        image = love.graphics.newImage("assets/sprite-0.png"),
+        frameW = 150,
+        frameH = 100,
+        default = {
+            axisX = 75,
+            axisY = 100,
+            duration = 7 / 60,
+            y = 4,
+        },
+        frames = {
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 2},
+        }
+    },
+    sasoriSlide = {
+        image = imgSasori,
+        frameW = 150,
+        frameH = 100,
+        default = {
+            axisX = 75,
+            axisY = 90,
+            duration = 7 / 60,
+            y = 2,
+        },
+        frames = {
+            {x = 11},
+        }
+    },
 }

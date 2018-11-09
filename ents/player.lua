@@ -10,18 +10,13 @@ class "Player"("Character")
 
 function Player:Player(name, posx, posy)
     Character.Character(self, name, posx, posy)
-    self.facing = "right"
+
     self.control = true
-    self.speed = 500
-    self.velocity = vec(0, 0)
-    self.acceleration = 600
     self.state = nil
     self.sm = FSM()
     self.states = {}
     self.movdelta = vec(0, 0)
-    self.animation = {}
-    self.friction = 0.85
-    self.maxvelocity = 999
+
 
     -----------Clone the animations this character uses
     self.anims = {}
