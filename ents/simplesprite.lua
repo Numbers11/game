@@ -14,7 +14,7 @@ function SimpleSprite:SimpleSprite(image, quad, posx, posy, duration, axisX, axi
     self.blendmode = blendmode or "alpha"
     self.scalex = self.scale * flip
     self.timer = 0
-    self.color = color or {1,1,1,1}
+    self.color = color or {1, 1, 1, 1}
 end
 
 function SimpleSprite:update(dt)
@@ -27,8 +27,8 @@ end
 
 function SimpleSprite:draw()
     --self.animation:draw(self.position.x, self.position.y, self.flip, self.scale, self.rotate)
-    local oldBM = { love.graphics.getBlendMode() }
-    local oldCL = { love.graphics.getColor() }
+    local oldBM = {love.graphics.getBlendMode()}
+    local oldCL = {love.graphics.getColor()}
     love.graphics.setBlendMode(self.blendmode)
     love.graphics.setColor(unpack(self.color))
     if self.quad == nil then

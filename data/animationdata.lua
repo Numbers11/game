@@ -349,4 +349,55 @@ return {
             {x = 9},
         }
     },
+    fxKindred = {
+        image = love.graphics.newImage("assets/Kindred_Skin01_P_flames.dds"),
+        frameW = 32,
+        frameH = 32,
+        default = {
+            axisX = 16,
+            axisY = 16,
+            duration = 2 / 60,
+        },
+        blendmode = "add",
+        frames = {
+            {x = 1, y = 1},
+            {x = 2, y = 1},
+            {x = 3, y = 1},
+            {x = 4, y = 1},
+            {x = 1, y = 2},
+            {x = 2, y = 2},
+            {x = 3, y = 2},
+            {x = 4, y = 2},
+        }
+    },
+    fxElectric = {
+        image = love.graphics.newImage("assets/Kayle_Skin07_E_Electric3.dds"),
+        frameW = 128,
+        frameH = 128,
+        default = {
+            axisX = 64,
+            axisY = 64,
+            duration = 5 / 60,
+        },
+        blendmode = "add",
+        frames = {
+            {x = 1, y = 1},
+            {x = 2, y = 1},
+            {x = 3, y = 1},
+            {x = 4, y = 1},
+            {x = 1, y = 2},
+            {x = 2, y = 2},
+            {x = 3, y = 2},
+            {x = 4, y = 2},
+            {x = 1, y = 3},
+            {x = 2, y = 3},
+            {x = 3, y = 3},
+            {x = 4, y = 3},
+            {x = 1, y = 4},
+            {x = 2, y = 4},
+            {x = 3, y = 4},
+            {x = 4, y = 4},
+        }
+    },
 }
+--

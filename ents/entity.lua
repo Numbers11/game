@@ -1,13 +1,11 @@
 require("libs.lclass")
 
-vec = require "libs.hump.vector"
-
 class "Entity"
 
-function Entity:Entity(name, posx, posy, w, h, d)
+function Entity:Entity(name, posx, posy, posz)
     self.id = 0
     self.name = name or ""
-    self.position = vec(posx, posy)
+    self.position = vec(posx, posy, posz)
 end
 
 function Entity:getType()
@@ -30,7 +28,6 @@ function Entity:setPos(posx, posy)
     self.position.x = posx
     self.position.y = posy
 end
-
 
 function Entity:update(dt)
     print("This should be overridden!!")

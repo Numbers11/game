@@ -4,18 +4,16 @@ require "ents.playerstates.playerstates"
 require "fsm.state_machine"
 require "ents.character"
 
-vec = require "libs.hump.vector"
-
 class "Player"("Character")
 
-function Player:Player(name, posx, posy)
-    Character.Character(self, name, posx, posy)
+function Player:Player(name, posx, posy, posz)
+    Character.Character(self, name, posx, posy, posz)
 
     self.control = true
     self.state = nil
     self.sm = FSM()
     self.states = {}
-    self.movdelta = vec(0, 0)
+    self.movdelta = vec()
 
     -----------Clone the animations this character uses
     self.anims = {}
@@ -45,11 +43,12 @@ function Player:update(dt)
     --update our state
     self.sm:getState():onUpdate(dt)
 
+    --movement update
     Character.update(self, dt)
 end
 
 function Player:input()
-    local delta = vec(0, 0)
+    local delta = vec(0, 0, 0)
     if love.keyboard.isDown("left") then
         delta.x = -1
     elseif love.keyboard.isDown("right") then
@@ -60,7 +59,7 @@ function Player:input()
     elseif love.keyboard.isDown("down") then
         delta.y = 1
     end
-    delta:normalizeInplace()
+    delta = delta:normalize()
     self.movdelta = delta
 end
 
@@ -78,6 +77,6 @@ function Player:draw()
     if DEBUG then
         love.graphics.print(trunc(self.movdelta.x, 2) .. ":" .. trunc(self.movdelta.y, 2), 100, 1)
         love.graphics.print(trunc(self.velocity.x, 2) .. ":" .. trunc(self.velocity.y, 2) .. " - " .. trunc(self.velocity:len(), 2), 200, 1)
-        love.graphics.print(trunc(self.position.x, 2) .. ":" .. trunc(self.position.y, 2) .. " -- " .. self.facing, 600, 1)
+        love.graphics.print(trunc(self.position.x, 2) .. ":" .. trunc(self.position.y, 2) .. ":" .. trunc(self.position.z, 2) .. " -- " .. self.facing, 600, 1)
     end
 end

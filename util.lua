@@ -16,7 +16,7 @@ function pic(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotat
 end
 
 function mixin(class, mixin)
-    for name,method in pairs(mixin) do
+    for name, method in pairs(mixin) do
         class[name] = method
     end
 end

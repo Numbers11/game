@@ -4,9 +4,6 @@ class "SimpleEffect"("Entity")
 function SimpleEffect:SimpleEffect(animation, posx, posy, duration, flip, scale, rotate)
     Entity.Entity(self, "Simple Effect", posx, posy)
 
-    --    mixin(self, collider3d)
-    --    self:c3dInit(posx, posy, 32, 80, 16)
-
     self.duration = duration
     self.animation = animation
     self.flip = flip or 1
@@ -46,5 +43,4 @@ end
 
 function SimpleEffect:kill()
     Entity.kill(self)
-    --    self:c3dRemove()
 end

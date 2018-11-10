@@ -23,7 +23,8 @@ function Animation:Animation(name, image, frameW, frameH, blendmode, default)
 
     self.blendmode = blendmode or nil
 
-    self.default = default or
+    self.default =
+        default or
         {
             x = 0,
             y = 0,

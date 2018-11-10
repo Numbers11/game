@@ -21,12 +21,13 @@ function c3d:c3dMove(posx, posy)
         posy - self.h,
         0,
         function(item, other)
-            print(item.id)
+            --print(item.id)
             return self:collisionFilter(item, other)
         end
     )
     for i = 1, len do
         print("collided with " .. tostring(cols[i].other))
+        self:collisionResolution(cols[i])
     end
     return actualX + self.w / 2, actualY + self.h
 end
@@ -41,13 +42,12 @@ local function drawItem(item)
     end
 
     local x, y, z, w, h, d = world:getCube(item)
-
+    --[[ 
     -- Front Side
     setAlpha(0.4)
     love.graphics.rectangle("fill", x, y + z + h, w, d)
     setAlpha(0.6)
-    love.graphics.rectangle("line", x, y + z + h, w, d)
-
+    love.graphics.rectangle("line", x, y + z + h, w, d) ]]
     -- Top
     setAlpha(0.4)
     love.graphics.rectangle("fill", x, y + z, w, h)
