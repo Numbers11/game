@@ -24,9 +24,10 @@ function Entity:getPos()
     return self.position:clone()
 end
 
-function Entity:setPos(posx, posy)
+function Entity:setPos(posx, posy, posz)
     self.position.x = posx
     self.position.y = posy
+    self.position.z = posz
 end
 
 function Entity:update(dt)

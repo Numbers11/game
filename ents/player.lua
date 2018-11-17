@@ -21,12 +21,16 @@ function Player:Player(name, posx, posy, posz)
     self.anims["turn"] = animations["saberTurn"]:clone()
     self.anims["attack1"] = animations["saberAttack1"]:clone()
     self.anims["idle"] = animations["saberIdle"]:clone()
-
+    self.anims["jumpStart"] = animations["saberJumpStart"]:clone()
+    self.anims["jumpAscending"] = animations["saberJumpAscending"]:clone()
+    
     ----------Create the states this character can be in
     self.sm:addState("idle", StateIdle(self))
     self.sm:addState("walk", StateWalk(self))
     self.sm:addState("turn", StateTurn(self))
     self.sm:addState("attack", StateAttack(self))
+    self.sm:addState("jump", StateJumpStart(self))
+    self.sm:addState("jumpAscending", StateJumpAscending(self))
 
     ----------set starting state
     self.sm:setState("idle")

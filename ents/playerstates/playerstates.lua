@@ -20,11 +20,16 @@ function StateIdle:onUpdate(dt)
 
     --attack
     if love.keyboard.isDown("f") then
-        --move
         self.fsm:setState("attack")
-    elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then
+    elseif love.keyboard.isDown("space") then -- jump
+        self.fsm:setState("jump")
+    elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then         --move
         self.fsm:setState("walk")
     end
+
+
+    
+
 end
 
 function StateIdle:onLeave()
@@ -98,6 +103,9 @@ function StateWalk:onUpdate(dt)
     --attack out of walk, its fine
     if love.keyboard.isDown("f") then
         self.fsm:setState("attack")
+        return
+    elseif love.keyboard.isDown("space") then -- jump
+        self.fsm:setState("jump")
         return
     end
 
@@ -199,6 +207,85 @@ end
 
 function StateAttack:onAnimationFinished()
     local player = self.ent
-    player.onFinish = nil
+    player.animation.onFinish = nil
     self.fsm:setState("idle")
 end
+
+
+----------
+
+class "StateJumpStart"("State")
+
+function StateJumpStart:StateJumpStart(entity)
+    State.State(self, entity)
+end
+
+function StateJumpStart:onEnter(from)
+    local player = self.ent
+    print("| " .. player.name .. ": state jump entered " .. from)
+    player.animation = player.anims["jumpStart"]
+    player.animation:start(false)
+    player.animation.onFinish = function()
+        self:onAnimationFinished()
+    end
+    player.inAir = true
+    player.friction = player.airFriction
+end
+
+function StateJumpStart:onUpdate(dt)
+    print(self.ent.velocity)
+    --self.timer = self.timer + dt
+    --local player = self.ent
+    --if player.position.z <= 0 then
+    --    self.fsm:setState("idle")
+    --end
+    -- react to other inputs here i guess whatever dunno
+end
+
+function StateJumpStart:onLeave()
+    local player = self.ent
+    print("| " .. player.name .. ": state jump left")
+    player.velocity.z = 900
+end
+
+function StateJumpStart:onAnimationFinished()
+    local player = self.ent
+    player.animation.onFinish = nil
+    self.fsm:setState("jumpAscending")
+end
+
+----------
+
+class "StateJumpAscending"("State")
+
+function StateJumpAscending:StateJumpAscending(entity)
+    State.State(self, entity)
+end
+
+function StateJumpAscending:onEnter(from)
+    local player = self.ent
+    print("| " .. player.name .. ": state jumpAscending entered " .. from)
+    player.animation = player.anims["jumpAscending"]
+    player.animation:start(false)
+end
+
+function StateJumpAscending:onUpdate(dt)
+    --self.timer = self.timer + dt
+    local player = self.ent
+    if player.position.z <= 0 then
+        self.fsm:setState("idle")
+    end
+    --if player.position.z <= 0 then
+    --    self.fsm:setState("idle")
+    --end
+    -- react to other inputs here i guess whatever dunno
+end
+
+function StateJumpAscending:onLeave()
+    local player = self.ent
+    print("| " .. player.name .. ": state jumpAscending left")
+    player.friction = player.groundFriction
+    fx("fxLand", player.position.x, player.position.y, 0)
+end
+
+----------

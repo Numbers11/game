@@ -54,7 +54,7 @@ function love.load()
     EM:add(aPlayer)
     --EM:add(ff)
 
-    local char = Character("Fred", 200, 600)
+    local char = Character("Fred", 200, 600, 110)
     EM:add(char)
     char.scale = 1.1
     char.animation = animations["sasoriWalk"]:clone()

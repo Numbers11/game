@@ -5,22 +5,27 @@ require "fsm.state_machine"
 class "Character"("Entity")
 
 function Character:Character(name, posx, posy, posz)
-    Entity.Entity(self, name, posx, posy, posz)
+    Entity.Entity(self, name, posx, posy, posz or 0)
+
+    self.scale = 1.5
 
     --Adds a collider to our Class
     mixin(self, collider3d)
-    self:c3dInit(posx, posy, 32, 50, 16)
+    self:c3dInit(posx, posy, posz, 32, 50, 16)
 
     --physics (maybe export to a mixin?)
+    self.groundFriction = 0.85
+    self.airFriction = 1
     self.friction = 0.85
     self.maxvelocity = 999
     self.speed = 500
     self.velocity = vec()
-    self.scale = 1.5
+    self.inAir = false
 
     --a character faces a direction and has a certain animation sprite
     self.animation = {}
     self.facing = 1 --1 = right, -1 = left
+    self.gravity = -32
 end
 
 function Character:getType()
@@ -32,22 +37,33 @@ function Character:update(dt)
     --or maybe do it before the state? No? because then we would be playing an animation for 1 frame before we could judge its actually changing again (in onenter)
     self.animation:update(dt)
 
-    --apply friction & gravity (later)
-    self.velocity = (self.velocity * self.friction)
+    --apply friction
+    self.velocity.x = self.velocity.x * self.friction
+    self.velocity.y = self.velocity.y * self.friction
 
-    --cutoff value & max value
+    --now gravity
+    self.velocity.z = self.velocity.z - self.gravity
+
+    --check if we are on the ground
+    if self.position.z + self.velocity.z * dt <= 0 then
+        self.velocity.z = 0
+        self.position.z = 0
+    --print("set inair false")
+    end
+
+    --[[   --cutoff value & max value
     v.trim(self.velocity, self.maxvelocity)
-    if self.velocity:len() < 50 then
+    if self.velocity:len() < 25 then
         --self.velocity = vec()
         self.velocity.x = 0
         self.velocity.y = 0
     --maybe faster than creating a new table
-    end
-
+    end ]]
     local newPos = self:getPos() + self.velocity * dt
 
     -- update position v--- but only after checking for collisions
-    self:setPos(self:c3dMove(self.position.x + self.velocity.x * dt, self.position.y + self.velocity.y * dt))
+    --self:setPos(self:c3dMove(self.position.x + self.velocity.x * dt, self.position.y + self.velocity.y * dt, self.position.z + self.velocity.z * dt))
+    self:setPos(self:c3dMove(v.unpack(newPos)))
 end
 
 function Character:move(dt)

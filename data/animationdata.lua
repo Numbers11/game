@@ -2,6 +2,7 @@ local imgFirebreath = love.graphics.newImage("assets/firebreath.png")
 local imgSpark = love.graphics.newImage("assets/spark.png")
 local imgSaber = love.graphics.newImage("assets/saiba.png")
 local imgSasori = love.graphics.newImage("assets/sprite_all.png")
+local imgSaberMove = love.graphics.newImage("assets/saber_move.png")
 
 return {
     fxFireBreath = {
@@ -48,67 +49,67 @@ return {
         }
     },
     saberIdle = {
-        image = imgSaber,
-        frameW = 77,
-        frameH = 60,
-        default = {
-            x = 1,
-            axisX = 42,
-            axisY = 54,
-            duration = 0.13
-        },
-        frames = {
-            {y = 1},
-            {y = 2},
-            {y = 3},
-            {y = 4},
-            {y = 5}
-        }
-    },
-    saberWalk = {
-        image = love.graphics.newImage("assets/saber_walk.png"),
+        image = imgSaberMove,
         frameW = 77,
         frameH = 60,
         default = {
             y = 1,
             axisX = 42,
             axisY = 54,
-            duration = 0.06
+            duration = 0.13
         },
         frames = {
             {x = 1},
             {x = 2},
             {x = 3},
             {x = 4},
-            {x = 5},
-            {x = 6},
-            {x = 7},
-            {x = 8}
+            {x = 5}
         }
     },
     saberRun = {
-        image = love.graphics.newImage("assets/saber_run.png"),
+        image = imgSaberMove,
         frameW = 77,
         frameH = 60,
         default = {
-            y = 1,
+            y = 3,
             axisX = 42,
             axisY = 54,
             duration = 0.05
         },
         frames = {
+            {x = 7},
+            {x = 8},
+            {x = 9},
+            {x = 1, y = 4},
+            {x = 2, y = 4},
+            {x = 3, y = 4},
+            {x = 4, y = 4},
+            {x = 6},
+        }
+    },
+    saberWalk = {
+        image = imgSaberMove,
+        frameW = 77,
+        frameH = 60,
+        default = {
+            y = 2,
+            axisX = 42,
+            axisY = 54,
+            duration = 0.06
+        },
+        frames = {
+            {x = 9, y = 1},
+            {x = 1},
             {x = 2},
             {x = 3},
             {x = 4},
             {x = 5},
             {x = 6},
-            {x = 7},
-            {x = 8},
-            {x = 1}
+            {x = 7}
         }
     },
     saberTurn = {
-        image = love.graphics.newImage("assets/saber_turn.png"),
+        image = imgSaberMove,
         frameW = 77,
         frameH = 60,
         default = {
@@ -117,7 +118,7 @@ return {
             duration = 0.2
         },
         frames = {
-            {x = 1, y = 1}
+            {x = 6, y = 1}
         }
     },
     saberAttack1 = {
@@ -135,6 +136,58 @@ return {
             {x = 4, duration = 2 / 60},
             {x = 5, duration = 8 / 60},
             {x = 1, duration = 5 / 60}
+        }
+    },
+    saberJumpStart = {
+        image = imgSaberMove,
+        frameW = 77,
+        frameH = 60,
+        default = {
+            axisX = 42,
+            axisY = 54,
+            duration = 4 / 60
+        },
+        frames = {
+            {x = 7, y = 1}
+        }
+    },
+    saberJumpAscending = {
+        image = imgSaberMove,
+        frameW = 77,
+        frameH = 60,
+        default = {
+            axisX = 42,
+            axisY = 54,
+            duration = 5 / 60,
+            y = 3
+        },
+        frames = {
+            {x = 8, y = 2},
+            {x = 9, y = 2},
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 4},
+            {x = 5},
+        }
+    },
+    fxLand = {
+        image = love.graphics.newImage("assets/fxLand.png"),
+        frameW = 249,
+        frameH = 32,
+        default = {
+            y = 1,
+            axisX = 124,
+            axisY = 16,
+            duration = 2 / 60
+        },
+        blendmode = "add",
+        frames = {
+            {x = 1},
+            {x = 2},
+            {x = 3},
+            {x = 4},
+            {x = 5},
         }
     },
     fxChakra = {

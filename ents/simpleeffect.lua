@@ -4,7 +4,7 @@ class "SimpleEffect"("Entity")
 function SimpleEffect:SimpleEffect(animation, posx, posy, duration, flip, scale, rotate)
     Entity.Entity(self, "Simple Effect", posx, posy)
 
-    self.duration = duration
+    self.duration = duration or 0
     self.animation = animation
     self.flip = flip or 1
     self.scale = scale or 1
@@ -41,6 +41,6 @@ function SimpleEffect:getType()
     return "SimpleEffect"
 end
 
-function SimpleEffect:kill()
+--[[ function SimpleEffect:kill()
     Entity.kill(self)
-end
+end ]]

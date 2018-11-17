@@ -102,7 +102,17 @@ function Animation:draw(positionX, positionY, flipped, scale, rotation)
     end
     self:drawSingleFrame(self.currentFrame, positionX, positionY, flipped, scale, rotation)
 end
+--[[ 
+mask_shader = love.graphics.newShader[[
+vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords) {
+    vec4 t = Texel(texture, texture_coords);
+    if (t.a == 0.0 || t.rgb == vec3(0.0)) {
+        discard;
+    }
+    return vec4(1.0);
+}
 
+wimg = love.graphics.newImage("assets/static.png") ]]
 function Animation:drawSingleFrame(frame, positionX, positionY, flipped, scale, rotation)
     local scale = scale or 1
     local axisX = frame.axisX or 0
@@ -117,6 +127,19 @@ function Animation:drawSingleFrame(frame, positionX, positionY, flipped, scale, 
     else
         love.graphics.draw(self.image, frame.quad, positionX, positionY, rotation, scalex, scale, axisX, axisY)
     end
+    --[[      love.graphics.stencil(function()     
+        love.graphics.setShader(mask_shader)
+        --love.graphics.draw(mask, positionX, positionY, rotation, scalex, scale, axisX, axisY)
+        love.graphics.draw(self.image, frame.quad, positionX, positionY, rotation, scalex, scale, axisX, axisY)
+        love.graphics.setShader()
+    end, "replace", 1)
+    love.graphics.setStencilTest("greater", 0)
+    love.graphics.setColor(1,1,1,0.7)
+
+    love.graphics.draw(wimg, positionX, positionY, self.currentFrameTime / 2, 1, 1, wimg:getWidth() / 2, wimg:getHeight() / 2)
+    love.graphics.setStencilTest()
+    love.graphics.setColor(1,1,1,1)
+]]
 end
 
 function Animation:flip()
