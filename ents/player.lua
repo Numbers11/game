@@ -23,7 +23,8 @@ function Player:Player(name, posx, posy, posz)
     self.anims["idle"] = animations["saberIdle"]:clone()
     self.anims["jumpStart"] = animations["saberJumpStart"]:clone()
     self.anims["jumpAscending"] = animations["saberJumpAscending"]:clone()
-    
+    self.anims["jumpLanding"] = animations["saberJumpLand"]:clone()
+
     ----------Create the states this character can be in
     self.sm:addState("idle", StateIdle(self))
     self.sm:addState("walk", StateWalk(self))
@@ -31,6 +32,7 @@ function Player:Player(name, posx, posy, posz)
     self.sm:addState("attack", StateAttack(self))
     self.sm:addState("jump", StateJumpStart(self))
     self.sm:addState("jumpAscending", StateJumpAscending(self))
+    self.sm:addState("jumpLanding", StateJumpLanding(self))
 
     ----------set starting state
     self.sm:setState("idle")
@@ -53,14 +55,14 @@ end
 
 function Player:input()
     local delta = vec(0, 0, 0)
-    if love.keyboard.isDown("left") then
+    if love.keyboard.isDown("a") then
         delta.x = -1
-    elseif love.keyboard.isDown("right") then
+    elseif love.keyboard.isDown("d") then
         delta.x = 1
     end
-    if love.keyboard.isDown("up") then
+    if love.keyboard.isDown("w") then
         delta.y = -1
-    elseif love.keyboard.isDown("down") then
+    elseif love.keyboard.isDown("s") then
         delta.y = 1
     end
     delta = delta:normalize()

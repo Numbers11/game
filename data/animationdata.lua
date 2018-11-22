@@ -171,6 +171,22 @@ return {
             {x = 5},
         }
     },
+    saberJumpLand = {
+        image = imgSaberMove,
+        frameW = 77,
+        frameH = 60,
+        default = {
+            axisX = 42,
+            axisY = 54,
+        },
+        frames = {
+            {x = 7, y = 1, duration =  1/60},
+            {x = 5, y = 4, duration =  3/60},
+            {x = 8, y = 1, duration =  5/60},
+            {x = 5, y = 4, duration =  7/60},
+            {x = 7, y = 1, duration =  9/60},
+        }
+    },
     fxLand = {
         image = love.graphics.newImage("assets/fxLand.png"),
         frameW = 249,
@@ -431,6 +447,7 @@ return {
             axisX = 64,
             axisY = 64,
             duration = 5 / 60,
+
         },
         blendmode = "add",
         frames = {

@@ -12,12 +12,13 @@ function SimpleSprite:SimpleSprite(image, quad, posx, posy, duration, axisX, axi
     self.axisX = axisX or 0
     self.axisY = axisY or 0
     self.blendmode = blendmode or "alpha"
-    self.scalex = self.scale * flip
+    --self.scalex = self.scale * flip
     self.timer = 0
     self.color = color or {1, 1, 1, 1}
 end
 
 function SimpleSprite:update(dt)
+    Entity.update(self, dt)
     self.timer = self.timer + dt
     if (self.duration > 0) and (self.timer >= self.duration) then
         self:kill()
@@ -32,9 +33,9 @@ function SimpleSprite:draw()
     love.graphics.setBlendMode(self.blendmode)
     love.graphics.setColor(unpack(self.color))
     if self.quad == nil then
-        love.graphics.draw(self.image, self.position.x, self.position.y, self.rotate, self.scalex, self.scale, self.axisX, self.axisY)
+        love.graphics.draw(self.image, self.position.x, self.position.y - self.position.z, self.rotate, self.scale * self.flip, self.scale, self.axisX, self.axisY)
     else
-        love.graphics.draw(self.image, self.quad, self.position.x, self.position.y, self.rotate, self.scalex, self.scale, self.axisX, self.axisY)
+        love.graphics.draw(self.image, self.quad, self.position.x, self.position.y - self.position.z, self.rotate, self.scale * self.flip, self.scale, self.axisX, self.axisY)
     end
     love.graphics.setBlendMode(unpack(oldBM))
     love.graphics.setColor(unpack(oldCL))

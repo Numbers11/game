@@ -1,5 +1,5 @@
 -- TODO: Hitboxes & Hurtboxes (halfway there)
--- figuring out jumps /3rd dimentions 2.5d !!
+-- figuring out jumps /3rd dimentions 2.5d !! (x)
 -- new Entity NPC, maybe with a common "actor" class for player and npc (x)
 -- also a camera
 -- and a map
@@ -80,8 +80,18 @@ function love.load()
 
     -----------------test stuff
     local imgFF = love.graphics.newImage("assets/Lux_Skin07_W_Ice_Shield_2d.dds")
+    local spr = SimpleSprite(imgFF, nil, 200, 300, 0, 64, 100, 1, 1, 0, "add")
+    spr:setFollowing(aPlayer)
+    grow = function()
+        timer.tween(2, spr, {scale = 1.0}, 'in-out-quad', shrink)
+    end
+    shrink = function()
+        timer.tween(2, spr, {scale = 0.95}, 'in-out-quad', grow)
+    end
+    grow()
+    EM:add(spr)
     --pic(image, quad, posx, posy, duration, axisX, axisY, flip, scale, rotate, blendmode, color)
-    pic(imgFF, nil, aPlayer.position.x, aPlayer.position.y, 0, 64, 100, 1, 1, 0, "add")
+    --pic(imgFF, nil, aPlayer.position.x, aPlayer.position.y, 0, 64, 100, 1, 1, 0, "add")
 end
 
 function love.keypressed(key, unicode)

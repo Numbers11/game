@@ -22,6 +22,7 @@ function SimpleEffect:SimpleEffect(animation, posx, posy, duration, flip, scale,
 end
 
 function SimpleEffect:update(dt)
+    Entity.update(self, dt)
     self.timer = self.timer + dt
     if (self.duration > 0) and (self.timer >= self.duration) then
         self:kill()

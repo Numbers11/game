@@ -25,7 +25,7 @@ function Character:Character(name, posx, posy, posz)
     --a character faces a direction and has a certain animation sprite
     self.animation = {}
     self.facing = 1 --1 = right, -1 = left
-    self.gravity = -32
+    self.gravity = 32
 end
 
 function Character:getType()
@@ -33,6 +33,7 @@ function Character:getType()
 end
 
 function Character:update(dt)
+    Entity.update(self, dt)
     --update our current character sprite (set by the state). maybe this can be changed to be done inside the state, if we want
     --or maybe do it before the state? No? because then we would be playing an animation for 1 frame before we could judge its actually changing again (in onenter)
     self.animation:update(dt)

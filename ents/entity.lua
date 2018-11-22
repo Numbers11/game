@@ -6,6 +6,9 @@ function Entity:Entity(name, posx, posy, posz)
     self.id = 0
     self.name = name or ""
     self.position = vec(posx, posy, posz)
+    self.following = nil
+    self.offset = vec()
+    self.destroyed = false
 end
 
 function Entity:getType()
@@ -30,8 +33,20 @@ function Entity:setPos(posx, posy, posz)
     self.position.z = posz
 end
 
+function Entity:setFollowing(ent, offsetx, offsety, offsetz)
+    if ent == nil then
+        self.following = nil
+        self.offset = vec()
+        return
+    end
+    self.following = ent
+    self.offset = vec(offsetx, offsety, offsetz)
+end
+
 function Entity:update(dt)
-    print("This should be overridden!!")
+    if self.following ~= nil then
+        self.position = self.following:getPos() + self.offset
+    end
 end
 
 function Entity:draw()
@@ -39,6 +54,7 @@ function Entity:draw()
 end
 
 function Entity:kill()
+    self.destroyed = true
     self._em:remove(self.id)
 end
 

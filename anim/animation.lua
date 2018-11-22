@@ -26,8 +26,8 @@ function Animation:Animation(name, image, frameW, frameH, blendmode, default)
     self.default =
         default or
         {
-            x = 0,
-            y = 0,
+            x = 1,
+            y = 1,
             axisX = 0,
             axisY = 0
         }
@@ -45,6 +45,13 @@ function Animation:loadFrameData(framedata)
             data.y or self.default.y,
             data.axisX or self.default.axisX,
             data.axisY or self.default.axisY
+            --[[
+                data.flip or self.default.flip (or 1 ???)
+                ^-(DAS ist hier vielleicht ein spezialfall! in der draw function overwrite soll er trotzdem nochmal geflippt werden!! also quasi ein AND statt ODER)
+                data.color or self.default.color, (or 1,1,1,1,)
+                data.rotation or self.default.rotation, or 0
+                data.scale or self.default.scale or 1
+            ]]
         )
     end
     self.frameCount = #self.frames
@@ -59,6 +66,9 @@ function Animation:createNewFrame(duration, frameW, frameH, frameX, frameY, axis
     frame.axisY = axisY
     frame.x = frameX
     frame.y = frameY
+    --[[
+        frame.flip, frame.color, frame.rotation, frame.scale
+    ]]
     table.insert(self.frames, frame)
 end
 
@@ -94,7 +104,7 @@ end
 function Animation:getFlip()
     return self.flipped
 end
-
+-- eventuell statt der ARGS eine table eigentschaft. self.flipped etc.
 function Animation:draw(positionX, positionY, flipped, scale, rotation)
     --TODO: Refactor this shit
     if not self.currentFrame then
@@ -118,7 +128,7 @@ function Animation:drawSingleFrame(frame, positionX, positionY, flipped, scale, 
     local axisX = frame.axisX or 0
     local axisY = frame.axisY or 0
     local scalex = scale * flipped
-
+    --local rotation = rotation or frame.rotation
     if self.blendmode ~= nil then
         local mode, _ = love.graphics.getBlendMode()
         love.graphics.setBlendMode(self.blendmode)

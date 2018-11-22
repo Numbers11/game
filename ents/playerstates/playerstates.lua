@@ -18,18 +18,13 @@ function StateIdle:onUpdate(dt)
     local player = self.ent
     --check key presses and transform accordingly
 
-    --attack
-    if love.keyboard.isDown("f") then
+    if love.keyboard.isDown("f") then   --attack
         self.fsm:setState("attack")
     elseif love.keyboard.isDown("space") then -- jump
         self.fsm:setState("jump")
-    elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then         --move
+    elseif player.movdelta.x ~= 0 or player.movdelta.y ~= 0 then --move
         self.fsm:setState("walk")
     end
-
-
-    
-
 end
 
 function StateIdle:onLeave()
@@ -52,7 +47,7 @@ end
 
 function StateWalk:onEnter(from)
     local player = self.ent
-    print("| " .. player.name .. ": state walk entered " .. from)
+    print("| " .. player.name .. ": state walk entered from " .. from)
 
     --check if we need to turn it around
     if turnCheck(player) then
@@ -63,8 +58,9 @@ function StateWalk:onEnter(from)
     player.animation = player.anims["walk"]
     player.animation:start()
 
+    --create run start dust particle effect
     fx("fxRun", player.position.x, player.position.y, 0, -player.facing)
-
+    --create after image effect
     self._th =
         timer.every(
         0.1,
@@ -109,19 +105,21 @@ function StateWalk:onUpdate(dt)
         return
     end
 
-    --default state, updating movement and stuff
+    --no state change
+    --smaller dust fx run
     if self.timer > 0.18 then
         fx("fxRun", player.position.x, player.position.y, 0, -player.facing, 0.4)
         self.timer = 0
     end
 
+    --no longer moving, going back to idle
     if player.movdelta.x == 0 and player.movdelta.y == 0 then
         print("nomovetest")
         self.fsm:setState("idle")
         return
     end
 
-    --no state changes = still pressed, so we move
+    --still pressed, so we move
     player:setVelocity(player.movdelta * player.speed) --*dt  -- player.velocity +
 end
 
@@ -144,7 +142,7 @@ end
 
 function StateTurn:onEnter(from)
     local player = self.ent
-    print("| " .. player.name .. ": state turn entered " .. from)
+    print("| " .. player.name .. ": state turn entered from" .. from)
     self.ent.animation = self.ent.anims["turn"]
     self.ent.animation.onFinish = function()
         self:onAnimationFinished()
@@ -178,7 +176,7 @@ end
 
 function StateAttack:onEnter(from)
     local player = self.ent
-    print("state attack entered " .. from)
+    print("state attack entered from " .. from)
     player.animation = player.anims["attack1"]
     player.animation:start(false)
     player.animation.onFinish = function()
@@ -222,7 +220,7 @@ end
 
 function StateJumpStart:onEnter(from)
     local player = self.ent
-    print("| " .. player.name .. ": state jump entered " .. from)
+    print("| " .. player.name .. ": state jump entered from " .. from)
     player.animation = player.anims["jumpStart"]
     player.animation:start(false)
     player.animation.onFinish = function()
@@ -264,7 +262,7 @@ end
 
 function StateJumpAscending:onEnter(from)
     local player = self.ent
-    print("| " .. player.name .. ": state jumpAscending entered " .. from)
+    print("| " .. player.name .. ": state jumpAscending entered from " .. from)
     player.animation = player.anims["jumpAscending"]
     player.animation:start(false)
 end
@@ -273,19 +271,55 @@ function StateJumpAscending:onUpdate(dt)
     --self.timer = self.timer + dt
     local player = self.ent
     if player.position.z <= 0 then
-        self.fsm:setState("idle")
+        self.fsm:setState("jumpLanding")
     end
-    --if player.position.z <= 0 then
-    --    self.fsm:setState("idle")
-    --end
+    --attack out of air (guess thats a specific state too)
+
+    --air jump / double jump
+
+    --move in air (probably no other state)
     -- react to other inputs here i guess whatever dunno
 end
 
 function StateJumpAscending:onLeave()
     local player = self.ent
     print("| " .. player.name .. ": state jumpAscending left")
-    player.friction = player.groundFriction
     fx("fxLand", player.position.x, player.position.y, 0)
+    player.friction = player.groundFriction
+end
+
+----------
+
+class "StateJumpLanding"("State")
+
+function StateJumpLanding:StateJumpLanding(entity)
+    State.State(self, entity)
+end
+
+function StateJumpLanding:onEnter(from)
+    local player = self.ent
+    print("| " .. player.name .. ": state jumpLanding entered from " .. from)
+    player.animation = player.anims["jumpLanding"]
+    player.animation:start(false)
+    player.animation.onFinish = function()
+        self:onAnimationFinished()
+    end
+end
+
+function StateJumpLanding:onUpdate(dt)
+end
+
+function StateJumpLanding:onLeave()
+    local player = self.ent
+    print("| " .. player.name .. ": state jumpLanding left")
+    player.friction = player.groundFriction
+    --fx("fxLand", player.position.x, player.position.y, 0)
+end
+
+function StateJumpLanding:onAnimationFinished()
+    local player = self.ent
+    player.animation.onFinish = nil
+    self.fsm:setState("idle")
 end
 
 ----------
